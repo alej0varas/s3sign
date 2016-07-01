@@ -40,7 +40,8 @@ class S3SignTestCase(TestCase):
 
         # GET a file
         signed_url = signer.get_signed_url(url, valid)
-        response = requests.get(signed_url)
+        url = signed_url['url']
+        response = requests.get(url)
 
         self.assertEqual(response.status_code, 200)
 
