@@ -1,0 +1,6 @@
+/.eggs/
+/__pycache__/
+/dist/
+/s3sign.egg-info/
+*.pyc
+*~

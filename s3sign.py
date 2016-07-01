@@ -14,15 +14,20 @@ class S3BaseSigner:
 
     def __init__(self, s3_bucket='', aws_access_key='', aws_secret_key=''):
         s3_bucket = os.environ.get('S3_BUCKET', s3_bucket)
-        assert s3_bucket is not '', 'You must provide a bucket name. As keyword argument `s3_bucket` or an environment variable `S3_BUCKET`'
+        assert s3_bucket is not '', '''You must provide a bucket name. As
+        keyword argument `s3_bucket` or an environment variable `S3_BUCKET`'''
         self.bucket_name = s3_bucket
 
         aws_access_key = os.environ.get('AWS_ACCESS_KEY', aws_access_key)
-        assert aws_access_key is not '', 'You must provide an aws access key. As keyword argument `aws_access_key` or an environment variable `AWS_ACCESS_KEY`'
+        assert aws_access_key is not '', '''You must provide an aws access key.
+        As keyword argument `aws_access_key` or an environment variable
+        `AWS_ACCESS_KEY`'''
         self.aws_access_key = aws_access_key
 
         aws_secret_key = os.environ.get('AWS_SECRET_KEY', aws_secret_key)
-        assert aws_secret_key is not '', 'You must provide an aws secret key. As keyword argument `aws_secret_key` or an environment variable `AWS_SECRET_KEY`'
+        assert aws_secret_key is not '', '''You must provide an aws secret key.
+        As keyword argument `aws_secret_key` or an environment variable
+        `AWS_SECRET_KEY`'''
         self.encoded_key = aws_secret_key.encode()
 
     def _get_expires(self, valid):
@@ -40,7 +45,8 @@ class S3BaseSigner:
         return signature
 
     def _get_signed_url(self, url, expires, signature):
-        return self.signed_url.format(url, self.aws_access_key, expires, signature)
+        return self.signed_url.format(
+            url, self.aws_access_key, expires, signature)
 
     def _get_url(self):
         url = self.url.format(self.bucket_name, self.object_name)
@@ -52,8 +58,8 @@ class S3BaseSigner:
 
 
 class S3PUTSigner(S3BaseSigner):
-    """Returns the signed url, the headers and the url to PUT an object in an S3 bucket. You will
-    need a signed url to GET the object.
+    """Returns the signed url, the headers and the url to PUT an object in
+    an S3 bucket. You will need a signed url to GET the object.
 
     """
     string_to_sign = "PUT\n\n{mime_type}\n{expires}\n/{bucket_name}/{object_name}"
@@ -77,8 +83,8 @@ class S3PUTSigner(S3BaseSigner):
 
 
 class S3PUTPublicSigner(S3PUTSigner):
-    """Returns the signed url, the headers and the url to PUT an object *publicly* available in an
-    S3 bucket.
+    """Returns the signed url, the headers and the url to PUT an object
+    *publicly* available in an S3 bucket.
 
     """
     amz_header = "x-amz-acl:public-read"
@@ -116,3 +122,6 @@ class S3GETSigner(S3BaseSigner):
     def _get_object_name(self, url):
         object_name = url.split(self.url_amz)[-1]
         return object_name
+
+
+__version__ = '0.1.0'

@@ -23,7 +23,8 @@ class S3SignTestCase(TestCase):
         # Use the signature to upload a file
         url = put_signature['signed_url']
         headers = put_signature['headers']
-        content = open(file_name, 'rb').read()
+        with open(file_name, 'rb') as tos3:
+            content = tos3.read()
 
         # PUT the object
         response = requests.put(url, data=content, headers=headers)
@@ -53,7 +54,8 @@ class S3SignTestCase(TestCase):
 
         url = put_signature['signed_url']
         headers = put_signature['headers']
-        content = open(file_name, 'rb').read()
+        with open(file_name, 'rb') as tos3:
+            content = tos3.read()
 
         response = requests.put(url, data=content, headers=headers)
 

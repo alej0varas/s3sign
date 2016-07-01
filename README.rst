@@ -1,4 +1,4 @@
-Get a signed url to PUT or GET a file to/from an Amazon S3 bucket
+A library to generate AWS S3 Signed Requests
 
 Usage
 =====
