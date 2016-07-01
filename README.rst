@@ -35,7 +35,8 @@ GET a file
 
    url = <the url to an object>
    signed_url = signer.get_signed_url(url, valid)
-   requests.get(signed_url)
+   url = signed_url['url']
+   requests.get(url)
 
 Run test
 ========

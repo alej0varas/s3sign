@@ -124,4 +124,4 @@ class S3GETSigner(S3BaseSigner):
         return object_name
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
