@@ -112,4 +112,4 @@ class S3GETSigner(S3BaseSigner):
         return {'signed_url': signed_url}
 
 
-__version__ = '0.1.4'
+__version__ = '0.2.0'

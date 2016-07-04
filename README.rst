@@ -17,7 +17,7 @@ PUT a file
    signer = S3PUTSigner()
 
    # Get the signature
-   put_signature = signer.get_signed_url(file_name, mime_type, valid)
+   put_signature = signer.get_signed_url(file_name, valid, mime_type)
 
    # Use the signature to upload a file
    url = put_signature['signed_url']
@@ -33,9 +33,9 @@ GET a file
 
    signer = S3GETSigner()
 
-   url = <the url to an object>
-   signed_url = signer.get_signed_url(url, valid)
-   url = signed_url['url']
+   object_name = <the object name>
+   signed_url = signer.get_signed_url(object_name, valid)
+   url = signed_url['signed_url']
    requests.get(url)
 
 Run test
