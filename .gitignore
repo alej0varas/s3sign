@@ -4,3 +4,4 @@
 /s3sign.egg-info/
 *.pyc
 *~
+/.tox/
