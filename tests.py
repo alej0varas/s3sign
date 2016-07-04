@@ -20,6 +20,11 @@ class S3SignTestCase(TestCase):
         # Get the signature
         put_signature = signer.get_signed_url(file_name, mime_type, valid)
 
+        self.assertIn('signed_url', put_signature)
+        self.assertIn('url', put_signature)
+        self.assertIn('headers', put_signature)
+        self.assertIn('object_name', put_signature)
+
         # Use the signature to upload a file
         url = put_signature['signed_url']
         headers = put_signature['headers']

@@ -79,7 +79,10 @@ class S3PUTSigner(S3BaseSigner):
         signed_url = self._get_signed_url(url, expires, signature)
         headers = self._get_headers(mime_type)
 
-        return {'signed_url': signed_url, 'headers': headers, 'url': url}
+        return {'signed_url': signed_url,
+                'headers': headers,
+                'url': url,
+                'object_name': self.object_name}
 
 
 class S3PUTPublicSigner(S3PUTSigner):
@@ -124,4 +127,4 @@ class S3GETSigner(S3BaseSigner):
         return object_name
 
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
