@@ -39,12 +39,12 @@ class S3SignTestCase(TestCase):
         # Test S3GETSigner
         # I'm not doing this test in a different method because it
         # requires the an existing object in the bucket
-        url = put_signature['url']
+        object_name = put_signature['object_name']
 
         signer = S3GETSigner()
 
         # GET a file
-        signed_url = signer.get_signed_url(url, valid)
+        signed_url = signer.get_signed_url(object_name, valid)
         url = signed_url['signed_url']
         response = requests.get(url)
 

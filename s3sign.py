@@ -113,18 +113,15 @@ class S3GETSigner(S3BaseSigner):
     """Returns the signed url to GET an object from an S3 bucket"""
     string_to_sign = "GET\n\n\n{expires}\n/{bucket_name}/{object_name}"
 
-    def get_signed_url(self, url, valid):
-        self.object_name = self._get_object_name(url)
+    def get_signed_url(self, object_name, valid):
+        self.object_name = object_name
         expires = self._get_expires(valid)
         signature = self._get_signature(expires=expires)
+        url = self._get_url()
 
         signed_url = self._get_signed_url(url, expires, signature)
 
         return {'signed_url': signed_url}
 
-    def _get_object_name(self, url):
-        object_name = url.split(self.url_amz)[-1]
-        return object_name
 
-
-__version__ = '0.1.2'
+__version__ = '0.1.3'
