@@ -120,7 +120,7 @@ class S3GETSigner(S3BaseSigner):
 
         signed_url = self._get_signed_url(url, expires, signature)
 
-        return {'url': signed_url}
+        return {'signed_url': signed_url}
 
     def _get_object_name(self, url):
         object_name = url.split(self.url_amz)[-1]
