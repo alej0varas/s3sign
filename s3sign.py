@@ -3,7 +3,6 @@ import hmac
 import os
 import time
 import urllib.parse
-import uuid
 from hashlib import sha1
 
 
@@ -44,9 +43,14 @@ class S3BaseSigner:
 
         return signature
 
-    def _get_signed_url(self, url, expires, signature):
+    def _get_signed_url(self, object_name, valid, mime_type=None):
+        self.object_name = object_name
+        expires = self._get_expires(valid)
+        signature = self._get_signature(expires=expires, mime_type=mime_type)
+        self.url = self._get_url()
+
         return self.signed_url.format(
-            url, self.aws_access_key, expires, signature)
+            self.url, self.aws_access_key, expires, signature)
 
     def _get_url(self):
         url = self.url.format(self.bucket_name, self.object_name)
@@ -64,24 +68,13 @@ class S3PUTSigner(S3BaseSigner):
     """
     string_to_sign = "PUT\n\n{mime_type}\n{expires}\n/{bucket_name}/{object_name}"
 
-    def get_object_name(self, file_name):
-        extension = file_name.split('.')[-1]
-        file_name = str(uuid.uuid4()) + '.' + extension
-        object_name = urllib.parse.quote_plus(file_name)
-        return object_name
-
-    def get_signed_url(self, file_name, mime_type, valid):
-        self.object_name = self.get_object_name(file_name)
-        expires = self._get_expires(valid)
-        signature = self._get_signature(mime_type=mime_type, expires=expires)
-
-        url = self._get_url()
-        signed_url = self._get_signed_url(url, expires, signature)
+    def get_signed_url(self, object_name, valid, mime_type):
+        signed_url = self._get_signed_url(object_name, valid, mime_type)
         headers = self._get_headers(mime_type)
 
         return {'signed_url': signed_url,
                 'headers': headers,
-                'url': url,
+                'url': self.url,
                 'object_name': self.object_name}
 
 
@@ -114,14 +107,9 @@ class S3GETSigner(S3BaseSigner):
     string_to_sign = "GET\n\n\n{expires}\n/{bucket_name}/{object_name}"
 
     def get_signed_url(self, object_name, valid):
-        self.object_name = object_name
-        expires = self._get_expires(valid)
-        signature = self._get_signature(expires=expires)
-        url = self._get_url()
-
-        signed_url = self._get_signed_url(url, expires, signature)
+        signed_url = self._get_signed_url(object_name, valid)
 
         return {'signed_url': signed_url}
 
 
-__version__ = '0.1.3'
+__version__ = '0.1.4'

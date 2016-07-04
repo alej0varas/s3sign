@@ -18,7 +18,7 @@ class S3SignTestCase(TestCase):
         signer = S3PUTSigner()
 
         # Get the signature
-        put_signature = signer.get_signed_url(file_name, mime_type, valid)
+        put_signature = signer.get_signed_url(file_name, valid, mime_type)
 
         self.assertIn('signed_url', put_signature)
         self.assertIn('url', put_signature)
@@ -56,7 +56,7 @@ class S3SignTestCase(TestCase):
         signer = S3PUTPublicSigner()
 
         mime_type = 'image/png'
-        put_signature = signer.get_signed_url(file_name, mime_type, valid)
+        put_signature = signer.get_signed_url(file_name, valid, mime_type)
 
         url = put_signature['signed_url']
         headers = put_signature['headers']
