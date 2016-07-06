@@ -1,5 +1,11 @@
 A library to generate AWS S3 Signed Requests
 
+Install
+=======
+::
+
+   pip install s3sign
+
 Usage
 =====
 
@@ -38,8 +44,8 @@ GET a file
    url = signed_url['signed_url']
    requests.get(url)
 
-Run test
-========
+Run tests
+=========
 ::
 
    export S3_BUCKET=<your-bucket>
