@@ -1,6 +1,6 @@
 import os
 
-import requests
+# import requests
 
 from unittest import TestCase
 
@@ -32,7 +32,7 @@ class S3SignTestCase(TestCase):
             content = tos3.read()
 
         # PUT the object
-        response = requests.put(url, data=content, headers=headers)
+        # response = requests.put(url, data=content, headers=headers)
 
         self.assertEqual(response.status_code, 200)
 
@@ -46,7 +46,7 @@ class S3SignTestCase(TestCase):
         # GET a file
         signed_url = signer.get_signed_url(object_name, valid)
         url = signed_url['signed_url']
-        response = requests.get(url)
+        # response = requests.get(url)
 
         self.assertEqual(response.status_code, 200)
 
@@ -63,13 +63,13 @@ class S3SignTestCase(TestCase):
         with open(file_name, 'rb') as tos3:
             content = tos3.read()
 
-        response = requests.put(url, data=content, headers=headers)
+        # response = requests.put(url, data=content, headers=headers)
 
         self.assertEqual(response.status_code, 200)
 
         url = put_signature['url']
 
-        response = requests.get(url)
+        # response = requests.get(url)
 
         self.assertEqual(response.status_code, 200)
 

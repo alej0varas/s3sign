@@ -1,12 +1,22 @@
+from __future__ import (absolute_import, division,
+                        print_function, unicode_literals)
+from builtins import *
+from hashlib import sha1
 import base64
 import hmac
 import os
 import time
-import urllib.parse
-from hashlib import sha1
+try:
+    from urlparse import urlparse as parse
+except ImportError:
+    from urllib import parse
+try:
+    from urllib import quote_plus as quote
+except ImportError:
+    from urllib.parse import quote
 
 
-class S3BaseSigner:
+class S3BaseSigner(object):
     signed_url = '{}?AWSAccessKeyId={}&Expires={}&Signature={}'
     url_amz = '.s3.amazonaws.com/'
     url = 'https://{}' + url_amz + '{}'
@@ -39,7 +49,12 @@ class S3BaseSigner:
         h = hmac.new(self.encoded_key, encodedString, sha1)
         hDigest = h.digest()
         signature = base64.encodebytes(hDigest).strip()
-        signature = urllib.parse.quote_plus(signature)
+        #signature = base64.encodestring(hDigest)
+        #signature = bytes(signature).strip()
+        # signature = parse.quote_plus(signature)
+        print(quote('aoe a'))
+        print(signature)
+        signature = quote(signature)
 
         return signature
 
@@ -110,6 +125,3 @@ class S3GETSigner(S3BaseSigner):
         signed_url = self._get_signed_url(object_name, valid)
 
         return {'signed_url': signed_url}
-
-
-__version__ = '0.2.0'
