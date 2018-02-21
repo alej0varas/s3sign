@@ -1,3 +1,5 @@
+**This project is not maintained** (boto3 can be used for this)
+
 A library to generate AWS S3 Signed Requests
 
 Install
